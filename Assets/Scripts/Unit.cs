@@ -31,14 +31,9 @@ public class Unit : MonoBehaviour
         {
             animator.SetBool("IsWalking", false);
         }
-
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            Move(MouseWorld.GetPosition());
-        }
     }
 
-    void Move(Vector3 targetPosition)
+    public void Move(Vector3 targetPosition)
     {
         this.targetPosition = targetPosition;
     }
