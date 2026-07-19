@@ -9,6 +9,11 @@ public class Unit : MonoBehaviour
     [SerializeField] float rotateSpeed = 10f;
     [SerializeField] float stoppingDistance = 0.1f;
 
+    void Awake()
+    {
+        targetPosition = transform.position;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
