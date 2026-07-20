@@ -4,11 +4,11 @@ using TMPro;
 public class GridDebugObject : MonoBehaviour
 {
     GridObject gridObject;
-    TMP_Text gridText;
+    TextMeshPro gridText;
 
     void Start()
     {
-        gridText = GetComponentInChildren<TMP_Text>();
+        gridText = GetComponentInChildren<TextMeshPro>();
     }
 
     public void SetDebugObject(GridObject gridObject)

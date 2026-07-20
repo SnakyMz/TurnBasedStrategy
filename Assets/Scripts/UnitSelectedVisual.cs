@@ -26,7 +26,7 @@ public class UnitSelectedVisual : MonoBehaviour
 
     void ToggleSelectedVisual()
     {
-        if (unit == UnitActionSystem.Instance.GetSelectedUnit())
+        if (UnitActionSystem.Instance.GetSelectedUnit() == unit)
         {
             meshRenderer.enabled = true;
         }

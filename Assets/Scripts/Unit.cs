@@ -4,11 +4,11 @@ using UnityEngine.InputSystem;
 public class Unit : MonoBehaviour
 {
     [SerializeField] Animator animator;
-    [SerializeField] Vector3 targetPosition;
     [SerializeField] float moveSpeed = 4f;
     [SerializeField] float rotateSpeed = 10f;
     [SerializeField] float stoppingDistance = 0.1f;
 
+    Vector3 targetPosition;
     GridPosition gridPosition;
 
     void Awake()
@@ -20,7 +20,7 @@ public class Unit : MonoBehaviour
     void Start()
     {
         gridPosition = LevelGrid.Instance.GetGridPosition(targetPosition);
-        LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
+        LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
     }
 
     // Update is called once per frame
@@ -40,8 +40,8 @@ public class Unit : MonoBehaviour
             animator.SetBool("IsWalking", false);
         }
 
-        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(targetPosition);
-        if (gridPosition != newGridPosition)
+        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        if (newGridPosition != gridPosition)
         {
             LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newGridPosition);
             gridPosition = newGridPosition;
