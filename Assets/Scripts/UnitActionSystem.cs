@@ -1,10 +1,26 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class UnitActionSystem : MonoBehaviour
 {
+    public static UnitActionSystem Instance { get; private set; }
+
+    public event Action<UnitActionSystem> OnSelectedUnitChanged;
+
     [SerializeField] Unit selectedUnit;
     [SerializeField] LayerMask unitLayerMask;
+
+    void Awake()
+    {
+        if (Instance != null)
+        {
+            Debug.LogError("There's more than one unit action system" + transform + " - " + Instance);
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -29,11 +45,23 @@ public class UnitActionSystem : MonoBehaviour
         {
             if (hit.transform.TryGetComponent<Unit>(out Unit unit))
             {
-                selectedUnit = unit;
+                SetSelectedUnit(unit);
                 return true;
             }
         }
 
         return false;
+    }
+
+    void SetSelectedUnit(Unit unit)
+    {
+        selectedUnit = unit;
+
+        OnSelectedUnitChanged?.Invoke(this);
+    }
+
+    public Unit GetSelectedUnit()
+    {
+        return selectedUnit;
     }
 }
