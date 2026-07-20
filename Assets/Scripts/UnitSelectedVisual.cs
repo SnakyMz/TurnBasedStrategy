@@ -15,7 +15,7 @@ public class UnitSelectedVisual : MonoBehaviour
     void Start()
     {
         UnitActionSystem.Instance.OnSelectedUnitChanged += ToggleSelectedVisual;
-        ToggleSelectedVisual(UnitActionSystem.Instance);
+        ToggleSelectedVisual();
     }
 
     // Update is called once per frame
@@ -24,9 +24,9 @@ public class UnitSelectedVisual : MonoBehaviour
 
     }
 
-    void ToggleSelectedVisual(UnitActionSystem unitActionSystem)
+    void ToggleSelectedVisual()
     {
-        if (unit == unitActionSystem.GetSelectedUnit())
+        if (unit == UnitActionSystem.Instance.GetSelectedUnit())
         {
             meshRenderer.enabled = true;
         }

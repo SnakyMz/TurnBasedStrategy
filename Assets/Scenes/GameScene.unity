@@ -119,6 +119,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &41349818
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 41349820}
+  - component: {fileID: 41349819}
+  m_Layer: 0
+  m_Name: LevelGrid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &41349819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41349818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f56d8dc52c4c665418a88003256496ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelGrid
+  gridDebugPrefab: {fileID: 2988404040794145918, guid: adbfb37c87cfa714abb5212ba9a74988, type: 3}
+--- !u!4 &41349820
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 41349818}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.14354, y: 0.01, z: 0.48045}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &206816046
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,7 +602,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8375736254849763929, guid: 9376cf7e8ceba2b42b81dbedf658b5f5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8375736254849763929, guid: 9376cf7e8ceba2b42b81dbedf658b5f5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -682,7 +727,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc7b4a4018383c4e9e53142ca3f35b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  selectedUnit: {fileID: 2134437330}
+  selectedUnit: {fileID: 0}
   unitLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -701,17 +746,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2134437330 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6323593118811963348, guid: 9376cf7e8ceba2b42b81dbedf658b5f5, type: 3}
-  m_PrefabInstance: {fileID: 698789978}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9463e3080eba57c4b8f322a9ae9b30b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Unit
 --- !u!1001 &5066035938049695630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -776,8 +810,9 @@ SceneRoots:
   - {fileID: 330585546}
   - {fileID: 410087041}
   - {fileID: 832575519}
-  - {fileID: 5066035938049695630}
   - {fileID: 463884689}
   - {fileID: 206816048}
   - {fileID: 944709607}
+  - {fileID: 41349820}
+  - {fileID: 5066035938049695630}
   - {fileID: 698789978}

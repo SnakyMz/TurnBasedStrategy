@@ -9,6 +9,8 @@ public class Unit : MonoBehaviour
     [SerializeField] float rotateSpeed = 10f;
     [SerializeField] float stoppingDistance = 0.1f;
 
+    GridPosition gridPosition;
+
     void Awake()
     {
         targetPosition = transform.position;
@@ -17,7 +19,8 @@ public class Unit : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        gridPosition = LevelGrid.Instance.GetGridPosition(targetPosition);
+        LevelGrid.Instance.SetUnitAtGridPosition(gridPosition, this);
     }
 
     // Update is called once per frame
@@ -35,6 +38,13 @@ public class Unit : MonoBehaviour
         else
         {
             animator.SetBool("IsWalking", false);
+        }
+
+        GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(targetPosition);
+        if (gridPosition != newGridPosition)
+        {
+            LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newGridPosition);
+            gridPosition = newGridPosition;
         }
     }
 
