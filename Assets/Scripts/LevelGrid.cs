@@ -50,4 +50,20 @@ public class LevelGrid : MonoBehaviour
     {
         return gridSystem.GetGridPosition(worldPosition);
     }
+
+    public Vector3 GetWorldPosition(GridPosition gridPosition)
+    {
+        return gridSystem.GetWorldPosition(gridPosition);
+    }
+
+    public bool IsValidGridPosition(GridPosition position)
+    {
+        return gridSystem.IsValidGridPosition(position);
+    }
+
+    public bool HasAnyUnitOnPosition(GridPosition position)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(position);
+        return gridObject.HasAnyUnit();
+    }
 }
