@@ -9,7 +9,12 @@ public class TurnSystem : MonoBehaviour
     public event Action OnTurnChange;
 
     [SerializeField] TextMeshProUGUI turnNumberText;
+    [SerializeField] GameObject endTurnButton;
+    [SerializeField] GameObject enemyTurnPanel;
+
     int turnNumber = 0;
+
+    bool isPlayerTurn = true;
 
     void Awake()
     {
@@ -34,11 +39,24 @@ public class TurnSystem : MonoBehaviour
 
     }
 
+    public bool GetPlayerTurn()
+    {
+        return isPlayerTurn;
+    }
+
     public void NextTurn()
     {
+        isPlayerTurn = !isPlayerTurn;
+        UpdateTurnPanel();
         turnNumber++;
         turnNumberText.text = "TURN " + turnNumber;
         OnTurnChange?.Invoke();
         UnitActionSystem.Instance.UpdateActionPointsUI();
+    }
+
+    void UpdateTurnPanel()
+    {
+        enemyTurnPanel.SetActive(!isPlayerTurn);
+        endTurnButton.SetActive(isPlayerTurn);
     }
 }

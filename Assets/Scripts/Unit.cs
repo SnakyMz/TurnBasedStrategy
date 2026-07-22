@@ -1,7 +1,10 @@
 using UnityEngine;
 
+[RequireComponent(typeof(MoveAction))]
+[RequireComponent(typeof(ShootAction))]
 public class Unit : MonoBehaviour
 {
+    [SerializeField] bool isEnemy = false;
     [SerializeField] int maxActionPoints = 3;
 
     GridPosition gridPosition;
@@ -38,6 +41,11 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public bool IsEnemy()
+    {
+        return isEnemy;
+    }
+
     public int GetActionPoints()
     {
         return actionPoints;
@@ -63,6 +71,11 @@ public class Unit : MonoBehaviour
         return gridPosition;
     }
 
+    public Vector3 GetWorldPosition()
+    {
+        return transform.position;
+    }
+
     public bool TryTakingAction(BaseAction action)
     {
         int actionCost = action.GetActionCost();
@@ -77,7 +90,14 @@ public class Unit : MonoBehaviour
 
     void TurnChange()
     {
-        actionPoints = maxActionPoints;
+        bool isPlayerTurn = TurnSystem.Instance.GetPlayerTurn();
+        if ((isEnemy && !isPlayerTurn) || (!isEnemy && isPlayerTurn))
+            actionPoints = maxActionPoints;
+    }
+
+    public void Damage()
+    {
+
     }
 
     void OnDestroy()

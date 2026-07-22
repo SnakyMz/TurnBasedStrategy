@@ -4,42 +4,36 @@ public class GridObject
 {
     GridSystem gridSystem;
     GridPosition gridPosition;
-    List<Unit> unitList;
+    Unit unit = null;
 
     public GridObject(GridSystem gridSystem, GridPosition gridPosition)
     {
         this.gridSystem = gridSystem;
         this.gridPosition = gridPosition;
-        unitList = new List<Unit>();
     }
 
     public override string ToString()
     {
-        string unitString = "";
-        foreach (Unit unit in unitList)
-        {
-            unitString += unit + "\n";
-        }
-        return gridPosition.ToString() + "\n" + unitString;
+        return gridPosition.ToString() + "\n" + unit;
     }
 
     public void AddUnit(Unit unit)
     {
-        unitList.Add(unit);
+        this.unit = unit;
     }
 
-    public void RemoveUnit(Unit unit)
+    public void ClearUnit()
     {
-        unitList.Remove(unit);
+        unit = null;
     }
 
-    public List<Unit> GetUnitList()
+    public Unit GetUnit()
     {
-        return unitList;
+        return unit;
     }
 
     public bool HasAnyUnit()
     {
-        return unitList.Count > 0;
+        return unit != null;
     }
 }

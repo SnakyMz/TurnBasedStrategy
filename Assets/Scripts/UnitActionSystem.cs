@@ -43,7 +43,7 @@ public class UnitActionSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isBusy) return;
+        if (isBusy || !TurnSystem.Instance.GetPlayerTurn()) return;
 
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
@@ -62,7 +62,7 @@ public class UnitActionSystem : MonoBehaviour
                 if (hit.transform.TryGetComponent<Unit>(out Unit unit))
                 {
                     if (unit == selectedUnit) return false;
-
+                    if (unit.IsEnemy()) return false;
                     SetSelectedUnit(unit);
                     return true;
                 }

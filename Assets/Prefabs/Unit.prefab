@@ -126,6 +126,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b2a93c46c2e2d14a8f9aee762591a57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UnitSelectedVisual
+--- !u!1 &5385898128227514379
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2031745024696563439}
+  m_Layer: 7
+  m_Name: GunPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2031745024696563439
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5385898128227514379}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.086, z: 0.733}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1047566929934379498}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7093138245665643519
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,6 +170,7 @@ GameObject:
   - component: {fileID: 8276549959088491321}
   - component: {fileID: 6151258526253828440}
   - component: {fileID: 418127316418525568}
+  - component: {fileID: 8809446765336141766}
   m_Layer: 7
   m_Name: Unit
   m_TagString: Untagged
@@ -175,6 +207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9463e3080eba57c4b8f322a9ae9b30b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Unit
+  isEnemy: 0
+  maxActionPoints: 3
 --- !u!65 &8276549959088491321
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -212,7 +246,7 @@ MonoBehaviour:
   moveSpeed: 4
   rotateSpeed: 10
   stoppingDistance: 0.1
-  maxMoveRange: 2
+  maxMoveRange: 3
 --- !u!114 &418127316418525568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,6 +259,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50145e7add43a064987cbde07dac97b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpinAction
+--- !u!114 &8809446765336141766
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7093138245665643519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 490decfd01cf37047a3e60247fa16137, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShootAction
+  animator: {fileID: 8265186282481657378}
+  bulletProjectilePrefab: {fileID: 8543531947254070375, guid: 6f0dc4f53e610364fa765523caee965e, type: 3}
+  gunPoint: {fileID: 2031745024696563439}
+  maxShootRange: 6
+  shootingCooloff: 0.5
+  rotateSpeed: 15
 --- !u!1001 &1052116455013743238
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -323,7 +375,10 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 25af05085d2957e42ac6b80b69ddd26a, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4620998167008108, guid: c25ac4fdc903e7d49a7520930673ecd6, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2031745024696563439}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c25ac4fdc903e7d49a7520930673ecd6, type: 3}
 --- !u!4 &1047566929934379498 stripped

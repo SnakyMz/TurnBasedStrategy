@@ -30,21 +30,20 @@ public class MoveAction : BaseAction
     {
         if (!isActive) return;
 
+        Vector3 moveDirection = (targetPosition - transform.position).normalized;
+
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
-            Vector3 moveDirection = (targetPosition - transform.position).normalized;
             transform.position += moveDirection * moveSpeed * Time.deltaTime;
-
-            transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
-
             animator.SetBool("IsWalking", true);
         }
         else
         {
             animator.SetBool("IsWalking", false);
-            isActive = false;
-            onActionComplete();
+            ActionComplete();
         }
+
+        transform.forward = Vector3.Lerp(transform.forward, moveDirection, Time.deltaTime * rotateSpeed);
     }
 
     public override string GetActionName()
@@ -54,8 +53,7 @@ public class MoveAction : BaseAction
 
     public override void TakeAction(GridPosition targetPosition, Action onActionComplete)
     {
-        this.onActionComplete = onActionComplete;
-        isActive = true;
+        ActionStart(onActionComplete);
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(targetPosition);
     }
 
@@ -68,12 +66,15 @@ public class MoveAction : BaseAction
         {
             for (int z = -maxMoveRange; z <= maxMoveRange; z++)
             {
-                GridPosition offsetGridPosition = new GridPosition(x, z) + unitGridPosition;
-                if (!LevelGrid.Instance.IsValidGridPosition(offsetGridPosition) || offsetGridPosition == unitGridPosition || LevelGrid.Instance.HasAnyUnitOnPosition(offsetGridPosition))
+                int circleDistance = Mathf.Abs(x) + Mathf.Abs(z);
+                if (circleDistance > maxMoveRange + 1) continue;
+
+                GridPosition rangeGridPosition = new GridPosition(x, z) + unitGridPosition;
+                if (!LevelGrid.Instance.IsValidGridPosition(rangeGridPosition) || rangeGridPosition == unitGridPosition || LevelGrid.Instance.HasAnyUnitOnPosition(rangeGridPosition))
                 {
                     continue;
                 }
-                validGridPositions.Add(offsetGridPosition);
+                validGridPositions.Add(rangeGridPosition);
             }
         }
         return validGridPositions;

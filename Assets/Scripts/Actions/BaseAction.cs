@@ -21,6 +21,18 @@ public abstract class BaseAction : MonoBehaviour
         return 1;
     }
 
+    protected void ActionStart(Action onActionComplete)
+    {
+        isActive = true;
+        this.onActionComplete = onActionComplete;
+    }
+
+    protected void ActionComplete()
+    {
+        isActive = false;
+        onActionComplete();
+    }
+
     public abstract void TakeAction(GridPosition position, Action onActionComplete);
 
     public abstract List<GridPosition> GetValidActionGridPositionList();
