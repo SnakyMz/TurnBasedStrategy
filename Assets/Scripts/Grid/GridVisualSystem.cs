@@ -1,9 +1,26 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+
+[Serializable]
+public struct GridVisualTypeMaterial
+{
+    public GridVisualType gridVisualType;
+    public Material material;
+}
+
+public enum GridVisualType
+{
+    White,
+    Red,
+    Blue,
+    Yellow
+}
 
 public class GridVisualSystem : MonoBehaviour
 {
     [SerializeField] GameObject gridVisualPrefab;
+    [SerializeField] List<GridVisualTypeMaterial> gridVisualTypeMaterials;
 
     GridVisual[,] gridVisualArray;
 
@@ -32,19 +49,21 @@ public class GridVisualSystem : MonoBehaviour
         UpdateGridVisuals();
     }
 
-    public void HideAllGridVisuals()
+    void HideAllGridVisuals()
     {
+        if (gridVisualArray.Length <= 0) return;
         foreach (GridVisual grid in gridVisualArray)
         {
             grid.Hide();
         }
     }
 
-    public void ShowGridVisuals(List<GridPosition> gridPositionList)
+    void ShowGridVisuals(List<GridPosition> gridPositionList, GridVisualType type)
     {
         foreach (GridPosition position in gridPositionList)
         {
-            gridVisualArray[position.x, position.z].Show();
+
+            gridVisualArray[position.x, position.z].Show(GetGridVisualMaterial(type));
         }
     }
 
@@ -53,6 +72,36 @@ public class GridVisualSystem : MonoBehaviour
         BaseAction action = UnitActionSystem.Instance.GetSelectedAction();
 
         HideAllGridVisuals();
-        ShowGridVisuals(action.GetValidActionGridPositionList());
+
+        GridVisualType gridVisualType;
+
+        switch (action)
+        {
+            default:
+            case MoveAction moveAction:
+                gridVisualType = GridVisualType.White;
+                break;
+            case SpinAction spinAction:
+                gridVisualType = GridVisualType.Blue;
+                break;
+            case ShootAction shootAction:
+                gridVisualType = GridVisualType.Red;
+                break;
+        }
+
+        ShowGridVisuals(action.GetValidActionGridPositionList(), gridVisualType);
+    }
+
+    Material GetGridVisualMaterial(GridVisualType type)
+    {
+        foreach (GridVisualTypeMaterial materialType in gridVisualTypeMaterials)
+        {
+            if (materialType.gridVisualType == type)
+            {
+                return materialType.material;
+            }
+        }
+
+        return null;
     }
 }

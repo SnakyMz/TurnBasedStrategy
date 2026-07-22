@@ -32,6 +32,7 @@ public class CameraManager : MonoBehaviour
 
     void HideActionCamera()
     {
+        if (targetGroup.IsEmpty) return;
         targetGroup.RemoveMember(actionUnit.transform);
         targetGroup.RemoveMember(targetUnit.transform);
         actionCamera.gameObject.SetActive(false);

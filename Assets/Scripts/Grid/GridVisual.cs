@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GridVisual : MonoBehaviour
 {
-    [SerializeField] GameObject visual;
+    [SerializeField] MeshRenderer visual;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -16,13 +16,14 @@ public class GridVisual : MonoBehaviour
 
     }
 
-    public void Show()
+    public void Show(Material material)
     {
-        visual.GetComponent<MeshRenderer>().enabled = true;
+        visual.enabled = true;
+        visual.material = material;
     }
 
     public void Hide()
     {
-        visual.GetComponent<MeshRenderer>().enabled = false;
+        visual.enabled = false;
     }
 }

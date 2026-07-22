@@ -178,6 +178,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridVisual
   gridVisualPrefab: {fileID: 7494993549724162907, guid: 77a90b7d06a4fe5439a59ae96e527a97, type: 3}
+  gridVisualTypeMaterials:
+  - gridVisualType: 0
+    material: {fileID: 2100000, guid: fa6b53c9e4b05d24ab0bc29806f38d24, type: 2}
+  - gridVisualType: 1
+    material: {fileID: 2100000, guid: a629f1207227a0045a516e1b94c3e22b, type: 2}
+  - gridVisualType: 2
+    material: {fileID: 2100000, guid: 240c4b82bce2f6841a4150d1a28079de, type: 2}
+  - gridVisualType: 3
+    material: {fileID: 2100000, guid: 90a60e32dca48b54ca8ffe48c121af5f, type: 2}
 --- !u!1 &63910419
 GameObject:
   m_ObjectHideFlags: 0
@@ -1982,17 +1991,12 @@ Transform:
   m_GameObject: {fileID: 1694463532}
   serializedVersion: 2
   m_LocalRotation: {x: 0.2566679, y: -1.4803359e-15, z: 2.318657e-16, w: 0.9664997}
-  m_LocalPosition: {x: 5.2015133, y: 2, z: 2.30227}
+  m_LocalPosition: {x: 0, y: 2, z: -3.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1696574684 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 811893966256818599, guid: 9115eba32917bf34787e0ae2eb7ac6d5, type: 3}
-  m_PrefabInstance: {fileID: 847609226}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1727178214
 GameObject:
   m_ObjectHideFlags: 0
@@ -2267,11 +2271,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1824410019}
   m_CullTransparentMesh: 1
---- !u!4 &1830510242 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8375736254849763929, guid: 9376cf7e8ceba2b42b81dbedf658b5f5, type: 3}
-  m_PrefabInstance: {fileID: 698789978}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1943430838
 GameObject:
   m_ObjectHideFlags: 0
@@ -2653,13 +2652,7 @@ MonoBehaviour:
   PositionMode: 0
   RotationMode: 0
   UpdateMethod: 2
-  Targets:
-  - Object: {fileID: 1830510242}
-    Weight: 1
-    Radius: 0.5
-  - Object: {fileID: 1696574684}
-    Weight: 0.5
-    Radius: 0.5
+  Targets: []
   m_LegacyTargets: []
 --- !u!4 &2137302556
 Transform:
@@ -2670,7 +2663,7 @@ Transform:
   m_GameObject: {fileID: 2137302554}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.2015133, y: 0, z: 5.80227}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
