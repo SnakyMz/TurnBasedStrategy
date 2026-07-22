@@ -166,8 +166,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8375736254849763929}
-  - component: {fileID: 6323593118811963348}
   - component: {fileID: 8276549959088491321}
+  - component: {fileID: 6323593118811963348}
+  - component: {fileID: 120259132762406599}
   - component: {fileID: 6151258526253828440}
   - component: {fileID: 418127316418525568}
   - component: {fileID: 8809446765336141766}
@@ -195,20 +196,6 @@ Transform:
   - {fileID: 6972557798598723265}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6323593118811963348
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7093138245665643519}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9463e3080eba57c4b8f322a9ae9b30b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Unit
-  isEnemy: 0
-  maxActionPoints: 3
 --- !u!65 &8276549959088491321
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -230,6 +217,32 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.6, y: 1.8, z: 0.6}
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!114 &6323593118811963348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7093138245665643519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9463e3080eba57c4b8f322a9ae9b30b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Unit
+  isEnemy: 0
+  maxActionPoints: 3
+--- !u!114 &120259132762406599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7093138245665643519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2214348bd8485ff47b4c483bbb8c31d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthSystem
 --- !u!114 &6151258526253828440
 MonoBehaviour:
   m_ObjectHideFlags: 0

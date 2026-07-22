@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(HealthSystem))]
 [RequireComponent(typeof(MoveAction))]
 [RequireComponent(typeof(ShootAction))]
 public class Unit : MonoBehaviour
@@ -8,6 +9,7 @@ public class Unit : MonoBehaviour
     [SerializeField] int maxActionPoints = 3;
 
     GridPosition gridPosition;
+    HealthSystem healthSystem;
     BaseAction[] unitActions;
     MoveAction moveAction;
     SpinAction spinAction;
@@ -17,6 +19,7 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         actionPoints = maxActionPoints;
+        healthSystem = GetComponent<HealthSystem>();
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
         unitActions = GetComponents<BaseAction>();
@@ -28,6 +31,7 @@ public class Unit : MonoBehaviour
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         TurnSystem.Instance.OnTurnChange += TurnChange;
+        healthSystem.OnDeath += HandleDeath;
     }
 
     // Update is called once per frame
@@ -95,13 +99,20 @@ public class Unit : MonoBehaviour
             actionPoints = maxActionPoints;
     }
 
-    public void Damage()
+    public void Damage(int amount)
     {
+        healthSystem.Damage(amount);
+    }
 
+    void HandleDeath()
+    {
+        LevelGrid.Instance.ClearUnitAtGridPosition(gridPosition);
+        Destroy(gameObject);
     }
 
     void OnDestroy()
     {
         TurnSystem.Instance.OnTurnChange -= TurnChange;
+        healthSystem.OnDeath -= HandleDeath;
     }
 }

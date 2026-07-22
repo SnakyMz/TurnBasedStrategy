@@ -14,6 +14,7 @@ public class ShootAction : BaseAction
     [SerializeField] Animator animator;
     [SerializeField] GameObject bulletProjectilePrefab;
     [SerializeField] Transform gunPoint;
+    [SerializeField] int shootDamage = 4;
     [SerializeField] int maxShootRange = 6;
     [SerializeField] float shootingCooloff = 0.5f;
     [SerializeField] float rotateSpeed = 15f;
@@ -132,6 +133,6 @@ public class ShootAction : BaseAction
         Vector3 shootPoint = targetUnit.GetWorldPosition();
         shootPoint.y = gunPoint.transform.position.y;
         bullet.GetComponent<Projectile>().Setup(shootPoint);
-        targetUnit.Damage();
+        targetUnit.Damage(shootDamage);
     }
 }
