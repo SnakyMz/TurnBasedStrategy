@@ -211,6 +211,7 @@ MonoBehaviour:
   moveSpeed: 4
   rotateSpeed: 10
   stoppingDistance: 0.1
+  maxMoveRange: 2
 --- !u!1001 &1052116455013743238
 PrefabInstance:
   m_ObjectHideFlags: 0
