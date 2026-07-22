@@ -43,7 +43,7 @@ public class UnitActionSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isBusy || !TurnSystem.Instance.GetPlayerTurn()) return;
+        if (isBusy || !TurnSystem.Instance.IsPlayerTurn()) return;
 
         if (EventSystem.current.IsPointerOverGameObject()) return;
 

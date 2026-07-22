@@ -39,7 +39,7 @@ public class TurnSystem : MonoBehaviour
 
     }
 
-    public bool GetPlayerTurn()
+    public bool IsPlayerTurn()
     {
         return isPlayerTurn;
     }

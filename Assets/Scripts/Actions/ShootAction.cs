@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum State
-{
-    Aiming,
-    Shooting,
-    Cooloff,
-}
 
 public class ShootAction : BaseAction
 {
+    enum State
+    {
+        Aiming,
+        Shooting,
+        Cooloff,
+    }
     [SerializeField] Animator animator;
     [SerializeField] GameObject bulletProjectilePrefab;
     [SerializeField] Transform gunPoint;
@@ -87,8 +87,13 @@ public class ShootAction : BaseAction
 
     public override List<GridPosition> GetValidActionGridPositionList()
     {
-        List<GridPosition> validGridPositions = new List<GridPosition>();
         GridPosition unitGridPosition = unit.GetGridPosition();
+        return GetValidActionGridPositionList(unitGridPosition);
+    }
+
+    public List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition)
+    {
+        List<GridPosition> validGridPositions = new List<GridPosition>();
 
         for (int x = -maxShootRange; x <= maxShootRange; x++)
         {
@@ -137,5 +142,21 @@ public class ShootAction : BaseAction
     public Unit GetTargetUnit()
     {
         return targetUnit;
+    }
+
+    public int GetTargetCountAtPosition(GridPosition position)
+    {
+        return GetValidActionGridPositionList(position).Count;
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = 5 + Mathf.RoundToInt((1 - targetUnit.GetHealthNormalize()) * 5),
+        };
     }
 }

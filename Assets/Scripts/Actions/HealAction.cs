@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Unit))]
-public class SpinAction : BaseAction
+[RequireComponent(typeof(HealthSystem))]
+public class HealAction : BaseAction
 {
+    [SerializeField] int healAmount = 5;
+    HealthSystem healthSystem;
+
     float totalSpinHappened = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        healthSystem = GetComponent<HealthSystem>();
     }
 
     // Update is called once per frame
@@ -25,13 +29,14 @@ public class SpinAction : BaseAction
         if (totalSpinHappened >= 360)
         {
             totalSpinHappened = 0;
+            healthSystem.Heal(healAmount);
             ActionComplete();
         }
     }
 
     public override string GetActionName()
     {
-        return "SPIN";
+        return "HEAL";
     }
 
     public override int GetActionCost()
@@ -50,6 +55,18 @@ public class SpinAction : BaseAction
         return new List<GridPosition>
         {
             unitPosition
+        };
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        int value = 0;
+        if (healthSystem.IsHealthLow()) value = 10;
+
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = value,
         };
     }
 }

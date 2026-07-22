@@ -24,6 +24,13 @@ public class HealthSystem : MonoBehaviour
 
     }
 
+    public void Heal(int amount)
+    {
+        health += amount;
+        if (health > maxHealth) health = maxHealth;
+        UpdateHealthBar();
+    }
+
     public void Damage(int amount)
     {
         health -= amount;
@@ -35,8 +42,18 @@ public class HealthSystem : MonoBehaviour
         }
     }
 
+    public bool IsHealthLow()
+    {
+        return health <= maxHealth / 2;
+    }
+
+    public float GetHealthNormalize()
+    {
+        return (float)health / maxHealth;
+    }
+
     void UpdateHealthBar()
     {
-        healthBar.fillAmount = (float)health / maxHealth;
+        healthBar.fillAmount = GetHealthNormalize();
     }
 }

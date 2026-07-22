@@ -81,7 +81,7 @@ public class GridVisualSystem : MonoBehaviour
             case MoveAction moveAction:
                 gridVisualType = GridVisualType.White;
                 break;
-            case SpinAction spinAction:
+            case HealAction spinAction:
                 gridVisualType = GridVisualType.Blue;
                 break;
             case ShootAction shootAction:

@@ -1,12 +1,17 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(HealthSystem))]
 [RequireComponent(typeof(MoveAction))]
+[RequireComponent(typeof(HealAction))]
 [RequireComponent(typeof(ShootAction))]
 public class Unit : MonoBehaviour
 {
+    public static event Action<Unit> OnUnitSpawn;
+    public static event Action<Unit> OnUnitDeath;
+
     [SerializeField] TextMeshProUGUI actionPointUI;
     [SerializeField] bool isEnemy = false;
     [SerializeField] int maxActionPoints = 3;
@@ -16,7 +21,8 @@ public class Unit : MonoBehaviour
     HealthSystem healthSystem;
     BaseAction[] unitActions;
     MoveAction moveAction;
-    SpinAction spinAction;
+    HealAction healAction;
+    ShootAction shootAction;
 
     int actionPoints = 0;
 
@@ -25,7 +31,8 @@ public class Unit : MonoBehaviour
         actionPoints = maxActionPoints;
         healthSystem = GetComponent<HealthSystem>();
         moveAction = GetComponent<MoveAction>();
-        spinAction = GetComponent<SpinAction>();
+        healAction = GetComponent<HealAction>();
+        shootAction = GetComponent<ShootAction>();
         unitActions = GetComponents<BaseAction>();
     }
 
@@ -37,6 +44,7 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         TurnSystem.Instance.OnTurnChange += TurnChange;
         healthSystem.OnDeath += HandleDeath;
+        OnUnitSpawn?.Invoke(this);
     }
 
     // Update is called once per frame
@@ -65,14 +73,24 @@ public class Unit : MonoBehaviour
         return unitActions;
     }
 
+    public float GetHealthNormalize()
+    {
+        return healthSystem.GetHealthNormalize();
+    }
+
     public MoveAction GetMoveAction()
     {
         return moveAction;
     }
 
-    public SpinAction GetSpinAction()
+    public HealAction GetHealAction()
     {
-        return spinAction;
+        return healAction;
+    }
+
+    public ShootAction GetShootAction()
+    {
+        return shootAction;
     }
 
     public GridPosition GetGridPosition()
@@ -85,12 +103,19 @@ public class Unit : MonoBehaviour
         return transform.position;
     }
 
-    public bool TryTakingAction(BaseAction action)
+    public bool CanTakeAction(BaseAction action)
     {
         int actionCost = action.GetActionCost();
-        if (actionPoints >= actionCost)
+        if (actionPoints >= actionCost) return true;
+        else return false;
+
+    }
+
+    public bool TryTakingAction(BaseAction action)
+    {
+        if (CanTakeAction(action))
         {
-            actionPoints -= actionCost;
+            actionPoints -= action.GetActionCost();
             UpdateActionPointUI();
             return true;
         }
@@ -100,7 +125,7 @@ public class Unit : MonoBehaviour
 
     void TurnChange()
     {
-        bool isPlayerTurn = TurnSystem.Instance.GetPlayerTurn();
+        bool isPlayerTurn = TurnSystem.Instance.IsPlayerTurn();
         if ((isEnemy && !isPlayerTurn) || (!isEnemy && isPlayerTurn))
         {
             actionPoints = maxActionPoints;
@@ -134,5 +159,6 @@ public class Unit : MonoBehaviour
     {
         TurnSystem.Instance.OnTurnChange -= TurnChange;
         healthSystem.OnDeath -= HandleDeath;
+        OnUnitDeath?.Invoke(this);
     }
 }
