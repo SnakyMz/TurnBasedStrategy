@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField] int actionPoints = 3;
+    [SerializeField] int maxActionPoints = 3;
+
     GridPosition gridPosition;
     BaseAction[] unitActions;
     MoveAction moveAction;
     SpinAction spinAction;
 
+    int actionPoints = 0;
+
     void Awake()
     {
+        actionPoints = maxActionPoints;
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
         unitActions = GetComponents<BaseAction>();
@@ -20,6 +24,7 @@ public class Unit : MonoBehaviour
     {
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
+        TurnSystem.Instance.OnTurnChange += TurnChange;
     }
 
     // Update is called once per frame
@@ -68,5 +73,15 @@ public class Unit : MonoBehaviour
         }
 
         return false;
+    }
+
+    void TurnChange()
+    {
+        actionPoints = maxActionPoints;
+    }
+
+    void OnDestroy()
+    {
+        TurnSystem.Instance.OnTurnChange -= TurnChange;
     }
 }

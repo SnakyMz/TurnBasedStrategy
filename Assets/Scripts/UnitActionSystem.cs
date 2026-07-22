@@ -88,7 +88,7 @@ public class UnitActionSystem : MonoBehaviour
         }
     }
 
-    void UpdateActionPointsUI()
+    public void UpdateActionPointsUI()
     {
         actionPointsUI.text = "Action Points: " + selectedUnit.GetActionPoints();
     }
