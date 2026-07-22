@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(HealthSystem))]
@@ -7,6 +8,7 @@ public class Unit : MonoBehaviour
 {
     [SerializeField] bool isEnemy = false;
     [SerializeField] int maxActionPoints = 3;
+    [SerializeField] float deathLinger = 2;
 
     GridPosition gridPosition;
     HealthSystem healthSystem;
@@ -107,6 +109,12 @@ public class Unit : MonoBehaviour
     void HandleDeath()
     {
         LevelGrid.Instance.ClearUnitAtGridPosition(gridPosition);
+        StartCoroutine(DestroyDelay(deathLinger));
+    }
+
+    IEnumerator DestroyDelay(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
         Destroy(gameObject);
     }
 
