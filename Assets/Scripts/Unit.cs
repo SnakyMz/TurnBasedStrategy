@@ -1,4 +1,5 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(HealthSystem))]
@@ -6,6 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(ShootAction))]
 public class Unit : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI actionPointUI;
     [SerializeField] bool isEnemy = false;
     [SerializeField] int maxActionPoints = 3;
     [SerializeField] float deathLinger = 2;
@@ -30,6 +32,7 @@ public class Unit : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        UpdateActionPointUI();
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
         LevelGrid.Instance.AddUnitAtGridPosition(gridPosition, this);
         TurnSystem.Instance.OnTurnChange += TurnChange;
@@ -88,6 +91,7 @@ public class Unit : MonoBehaviour
         if (actionPoints >= actionCost)
         {
             actionPoints -= actionCost;
+            UpdateActionPointUI();
             return true;
         }
 
@@ -98,7 +102,15 @@ public class Unit : MonoBehaviour
     {
         bool isPlayerTurn = TurnSystem.Instance.GetPlayerTurn();
         if ((isEnemy && !isPlayerTurn) || (!isEnemy && isPlayerTurn))
+        {
             actionPoints = maxActionPoints;
+            UpdateActionPointUI();
+        }
+    }
+
+    void UpdateActionPointUI()
+    {
+        actionPointUI.text = actionPoints.ToString();
     }
 
     public void Damage(int amount)
