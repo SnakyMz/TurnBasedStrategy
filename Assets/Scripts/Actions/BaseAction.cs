@@ -4,6 +4,10 @@ using UnityEngine;
 
 public abstract class BaseAction : MonoBehaviour
 {
+    public static event Action<BaseAction> OnActionStart;
+    public static event Action OnActionEnd;
+
+    // delegate
     protected Action onActionComplete;
     protected Unit unit;
 
@@ -12,6 +16,11 @@ public abstract class BaseAction : MonoBehaviour
     protected virtual void Awake()
     {
         unit = GetComponent<Unit>();
+    }
+
+    public Unit GetUnit()
+    {
+        return unit;
     }
 
     public abstract string GetActionName();
@@ -25,12 +34,15 @@ public abstract class BaseAction : MonoBehaviour
     {
         isActive = true;
         this.onActionComplete = onActionComplete;
+
+        OnActionStart?.Invoke(this);
     }
 
     protected void ActionComplete()
     {
         isActive = false;
         onActionComplete();
+        OnActionEnd?.Invoke();
     }
 
     public abstract void TakeAction(GridPosition position, Action onActionComplete);
