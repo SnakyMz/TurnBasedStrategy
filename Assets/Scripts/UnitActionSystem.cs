@@ -1,8 +1,8 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class UnitActionSystem : MonoBehaviour
 {
@@ -11,6 +11,7 @@ public class UnitActionSystem : MonoBehaviour
     public event Action OnSelectedUnitChanged;
 
     [SerializeField] GameObject actionButtonPrefab;
+    [SerializeField] TextMeshProUGUI actionPointsUI;
     [SerializeField] Transform actionPanel;
     [SerializeField] GameObject busyPanel;
     [SerializeField] Unit selectedUnit;
@@ -36,6 +37,7 @@ public class UnitActionSystem : MonoBehaviour
     {
         busyPanel.SetActive(false);
         SetSelectedUnit(selectedUnit);
+        UpdateActionPointsUI();
     }
 
     // Update is called once per frame
@@ -75,12 +77,20 @@ public class UnitActionSystem : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-            if (selectedAction.IsValidGridPosition(mouseGridPosition))
-            {
-                selectedAction.TakeAction(mouseGridPosition, ClearBusy);
-                SetBusy();
-            }
+
+            if (!selectedAction.IsValidGridPosition(mouseGridPosition)) return;
+
+            if (!selectedUnit.TryTakingAction(selectedAction)) return;
+
+            UpdateActionPointsUI();
+            selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+            SetBusy();
         }
+    }
+
+    void UpdateActionPointsUI()
+    {
+        actionPointsUI.text = "Action Points: " + selectedUnit.GetActionPoints();
     }
 
     void CreateActionPanel()
@@ -119,6 +129,7 @@ public class UnitActionSystem : MonoBehaviour
     void SetSelectedUnit(Unit unit)
     {
         selectedUnit = unit;
+        UpdateActionPointsUI();
         CreateActionPanel();
         SetSelectedAction(selectedUnit.GetMoveAction());
         OnSelectedUnitChanged?.Invoke();

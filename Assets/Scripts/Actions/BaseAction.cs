@@ -16,6 +16,11 @@ public abstract class BaseAction : MonoBehaviour
 
     public abstract string GetActionName();
 
+    public virtual int GetActionCost()
+    {
+        return 1;
+    }
+
     public abstract void TakeAction(GridPosition position, Action onActionComplete);
 
     public abstract List<GridPosition> GetValidActionGridPositionList();

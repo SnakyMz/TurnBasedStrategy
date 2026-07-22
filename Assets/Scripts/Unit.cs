@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    [SerializeField] int actionPoints = 3;
     GridPosition gridPosition;
     BaseAction[] unitActions;
     MoveAction moveAction;
@@ -32,6 +33,11 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public int GetActionPoints()
+    {
+        return actionPoints;
+    }
+
     public BaseAction[] GetActions()
     {
         return unitActions;
@@ -50,5 +56,17 @@ public class Unit : MonoBehaviour
     public GridPosition GetGridPosition()
     {
         return gridPosition;
+    }
+
+    public bool TryTakingAction(BaseAction action)
+    {
+        int actionCost = action.GetActionCost();
+        if (actionPoints >= actionCost)
+        {
+            actionPoints -= actionCost;
+            return true;
+        }
+
+        return false;
     }
 }

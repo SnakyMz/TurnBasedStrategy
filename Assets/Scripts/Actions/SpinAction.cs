@@ -35,6 +35,11 @@ public class SpinAction : BaseAction
         return "SPIN";
     }
 
+    public override int GetActionCost()
+    {
+        return 2;
+    }
+
     public override void TakeAction(GridPosition position, Action onActionComplete)
     {
         this.onActionComplete = onActionComplete;
