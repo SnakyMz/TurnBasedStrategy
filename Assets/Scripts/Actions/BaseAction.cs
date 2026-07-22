@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class BaseAction : MonoBehaviour
 {
+    protected Action onActionComplete;
     protected Unit unit;
 
     protected bool isActive = false;
@@ -11,15 +14,15 @@ public abstract class BaseAction : MonoBehaviour
         unit = GetComponent<Unit>();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public abstract string GetActionName();
+
+    public abstract void TakeAction(GridPosition position, Action onActionComplete);
+
+    public abstract List<GridPosition> GetValidActionGridPositionList();
+
+    public virtual bool IsValidGridPosition(GridPosition position)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        List<GridPosition> validGridPositions = GetValidActionGridPositionList();
+        return validGridPositions.Contains(position);
     }
 }

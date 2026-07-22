@@ -1,5 +1,8 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Unit))]
 public class SpinAction : BaseAction
 {
     float totalSpinHappened = 0;
@@ -23,11 +26,27 @@ public class SpinAction : BaseAction
         {
             isActive = false;
             totalSpinHappened = 0;
+            onActionComplete();
         }
     }
 
-    public void Spin()
+    public override string GetActionName()
     {
+        return "SPIN";
+    }
+
+    public override void TakeAction(GridPosition position, Action onActionComplete)
+    {
+        this.onActionComplete = onActionComplete;
         isActive = true;
+    }
+
+    public override List<GridPosition> GetValidActionGridPositionList()
+    {
+        GridPosition unitPosition = unit.GetGridPosition();
+        return new List<GridPosition>
+        {
+            unitPosition
+        };
     }
 }

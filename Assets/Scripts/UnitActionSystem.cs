@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class UnitActionSystem : MonoBehaviour
 {
@@ -8,8 +10,15 @@ public class UnitActionSystem : MonoBehaviour
 
     public event Action OnSelectedUnitChanged;
 
+    [SerializeField] GameObject actionButtonPrefab;
+    [SerializeField] Transform actionPanel;
+    [SerializeField] GameObject busyPanel;
     [SerializeField] Unit selectedUnit;
     [SerializeField] LayerMask unitLayerMask;
+
+    BaseAction selectedAction;
+
+    bool isBusy = false;
 
     void Awake()
     {
@@ -25,47 +34,109 @@ public class UnitActionSystem : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        busyPanel.SetActive(false);
+        SetSelectedUnit(selectedUnit);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            if (TryHandleUnitSelection()) return;
-            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-            if (selectedUnit.GetMoveAction().IsValidGridPosition(mouseGridPosition))
-            {
-                selectedUnit.GetComponent<MoveAction>().Move(mouseGridPosition);
-            }
-        }
+        if (isBusy) return;
+
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+
+        if (TryHandleUnitSelection()) return;
+
+        HandleUnitAction();
     }
 
     bool TryHandleUnitSelection()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, unitLayerMask))
+        if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            if (hit.transform.TryGetComponent<Unit>(out Unit unit))
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, unitLayerMask))
             {
-                SetSelectedUnit(unit);
-                return true;
+                if (hit.transform.TryGetComponent<Unit>(out Unit unit))
+                {
+                    if (unit == selectedUnit) return false;
+
+                    SetSelectedUnit(unit);
+                    return true;
+                }
             }
         }
 
         return false;
     }
 
+    void HandleUnitAction()
+    {
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
+            if (selectedAction.IsValidGridPosition(mouseGridPosition))
+            {
+                selectedAction.TakeAction(mouseGridPosition, ClearBusy);
+                SetBusy();
+            }
+        }
+    }
+
+    void CreateActionPanel()
+    {
+        foreach (Transform child in actionPanel)
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (BaseAction action in selectedUnit.GetActions())
+        {
+            GameObject actionButton = Instantiate(actionButtonPrefab, actionPanel);
+            actionButton.GetComponent<ActionButton>().SetButton(action);
+        }
+    }
+
+    void UpdateActionPanel()
+    {
+        foreach (Transform button in actionPanel)
+        {
+            button.GetComponent<ActionButton>().UpdateSelectedButton();
+        }
+    }
+
+    public void SetBusy()
+    {
+        isBusy = true;
+        busyPanel.SetActive(true);
+    }
+
+    public void ClearBusy()
+    {
+        isBusy = false;
+        busyPanel.SetActive(false);
+    }
+
     void SetSelectedUnit(Unit unit)
     {
         selectedUnit = unit;
-
+        CreateActionPanel();
+        SetSelectedAction(selectedUnit.GetMoveAction());
         OnSelectedUnitChanged?.Invoke();
+    }
+
+    public void SetSelectedAction(BaseAction action)
+    {
+        selectedAction = action;
+        UpdateActionPanel();
     }
 
     public Unit GetSelectedUnit()
     {
         return selectedUnit;
+    }
+
+    public BaseAction GetSelectedAction()
+    {
+        return selectedAction;
     }
 }

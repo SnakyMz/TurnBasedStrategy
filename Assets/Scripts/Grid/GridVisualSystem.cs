@@ -50,9 +50,9 @@ public class GridVisualSystem : MonoBehaviour
 
     void UpdateGridVisuals()
     {
-        Unit unit = UnitActionSystem.Instance.GetSelectedUnit();
+        BaseAction action = UnitActionSystem.Instance.GetSelectedAction();
 
         HideAllGridVisuals();
-        ShowGridVisuals(unit.GetMoveAction().GetValidActionGridPositionList());
+        ShowGridVisuals(action.GetValidActionGridPositionList());
     }
 }

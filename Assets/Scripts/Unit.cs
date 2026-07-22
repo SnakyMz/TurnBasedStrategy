@@ -3,11 +3,15 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     GridPosition gridPosition;
+    BaseAction[] unitActions;
     MoveAction moveAction;
+    SpinAction spinAction;
 
     void Awake()
     {
         moveAction = GetComponent<MoveAction>();
+        spinAction = GetComponent<SpinAction>();
+        unitActions = GetComponents<BaseAction>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,9 +32,19 @@ public class Unit : MonoBehaviour
         }
     }
 
+    public BaseAction[] GetActions()
+    {
+        return unitActions;
+    }
+
     public MoveAction GetMoveAction()
     {
         return moveAction;
+    }
+
+    public SpinAction GetSpinAction()
+    {
+        return spinAction;
     }
 
     public GridPosition GetGridPosition()
